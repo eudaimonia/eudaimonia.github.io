@@ -185,14 +185,40 @@ int j = ++i; // j = 2; i = 2
 ```
 
 将以上自增赋值操作的对应的字节码序列总结到下表：
-| 语句 | 字节码序列 |执行结果|
-| --- | --- |---|
-| i = i++ | `iload_1; iinc 1,1; istore_1` | i==1 |
-| j = i++ | `iload_1; iinc 1,1; istore_2` | j == 1 && i == 2 |
-| i = ++i | `iinc 1,1; iload_1; istore_1`| i == 2 |
-| j = ++i | `iinc 1,1; iload_1; istore_2` | i == 2 && j == 2 |
 
-可以看出`? = ++i`行为和"先加1”(`iinc 1,1`)"再赋值"(`iload_1; istore_?`)的语义一致。   
+<table>
+  <thead>
+    <tr>
+      <th>语句</th>
+      <th>字节码序列</th>
+      <th>执行结果</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>i = i++</td>
+      <td><code>iload_1; iinc 1,1; istore_1</code></td>
+      <td>i==1</td>
+    </tr>
+    <tr>
+      <td>j = i++</td>
+      <td><code>iload_1; iinc 1,1; istore_2</code></td>
+      <td>j == 1 &amp;&amp; i == 2</td>
+    </tr>
+    <tr>
+      <td>i = ++i</td>
+      <td><code>iinc 1,1; iload_1; istore_1</code></td>
+      <td>i == 2</td>
+    </tr>
+    <tr>
+      <td>j = ++i</td>
+      <td><code>iinc 1,1; iload_1; istore_2</code></td>
+      <td>i == 2 &amp;&amp; j == 2</td>
+    </tr>
+  </tbody>
+</table>
+
+可以看出`? = ++i`行为和"先加1”(`iinc 1,1`)"再赋值"(`iload_1; istore_?`)的语义一致。  
 而`? = i++`的行为则不是"先赋值,再加1",而是第一步保存原值到一个副本(这里为操作数栈顶)，然后就是"先加1，再(从副本)赋值"  
 把`? = i++`编译成`iload_1, istore_?;iincr 1,1`不更符合期望(确切地说是谭爷爷教导的)语义么?
 
