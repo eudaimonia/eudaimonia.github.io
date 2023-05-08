@@ -25,7 +25,7 @@ for filename in os.listdir('posts'):
             # 构造链接格式
             title = meta.get('title').strip('"')
             file_path = os.path.join('posts', filename)
-            link = f'[{title}]("{file_path}")'
+            link = f'[{title}]({file_path})'
 
             # 将链接添加到列表中
             links.append(link)
