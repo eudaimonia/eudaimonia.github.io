@@ -2,6 +2,7 @@
 
 import os
 import re
+import posixpath
 
 # 遍历posts目录下的所有文件
 links = []
@@ -24,7 +25,7 @@ for filename in os.listdir('posts'):
 
             # 构造链接格式
             title = meta.get('title').strip('"')
-            file_path = os.path.join('posts', filename)
+            file_path = posixpath.join('posts', filename)
             link = f'[{title}]({file_path})'
 
             # 将链接添加到列表中
